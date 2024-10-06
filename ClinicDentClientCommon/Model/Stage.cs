@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ClinicDentClientCommon.Model
 {
@@ -46,7 +47,14 @@ namespace ClinicDentClientCommon.Model
             ToothUnderObservationId = d.ToothUnderObservationId;
             CreatedDateTime = d.CreatedDateTime;
             LastModifiedDateTime = d.LastModifiedDateTime;
-
+            if(d.TeethNumbers != null)
+            {
+                Teeth = SharedData.AllTeeth.Where(t => d.TeethNumbers.Contains(t.Id)).ToList();
+            }
+            else
+            {
+                Teeth = new List<Tooth>();
+            }
         }
         public int Id { get; set; }
         public int PatientId { get; set; }
@@ -84,6 +92,7 @@ namespace ClinicDentClientCommon.Model
         public int? ToothUnderObservationId { get; set; }
         public string CreatedDateTime { get; set; }
         public string LastModifiedDateTime { get; set; }
+        public List<Tooth> Teeth { get; set; } 
     }
     public class StageDTO
     {
@@ -119,6 +128,15 @@ namespace ClinicDentClientCommon.Model
             ToothUnderObservationId = d.ToothUnderObservationId;
             CreatedDateTime = d.CreatedDateTime;
             LastModifiedDateTime = d.LastModifiedDateTime;
+            TeethNumbers = new List<byte>();
+            if (d.Teeth != null)
+            {
+                foreach (var tooth in d.Teeth)
+                {
+                    TeethNumbers.Add(tooth.Id);
+                }
+            }
+            
 
         }
         public int Id { get; set; }
@@ -159,5 +177,6 @@ namespace ClinicDentClientCommon.Model
         public int? ToothUnderObservationId { get; set; }
         public string CreatedDateTime { get; set; }
         public string LastModifiedDateTime { get; set; }
+        public List<byte> TeethNumbers { get; set; }
     }
 }

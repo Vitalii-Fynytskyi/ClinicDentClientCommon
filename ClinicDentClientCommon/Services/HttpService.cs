@@ -179,7 +179,7 @@ namespace ClinicDentClientCommon.Services
         }
         public static async Task<string[]> GetTenantList()
         {
-            httpClient = CreateHttpClient(ConfigData.ServerAddress, TimeSpan.FromSeconds(10));
+            HttpClient httpClient = CreateHttpClient(ConfigData.ServerAddress, TimeSpan.FromSeconds(10));
             HttpResponseMessage result = null;
             try
             {
@@ -201,13 +201,13 @@ namespace ClinicDentClientCommon.Services
         }
         public static async Task<string> GetApiVersion()
         {
-            httpClient = CreateHttpClient(ConfigData.ServerAddress, TimeSpan.FromSeconds(10));
+            HttpClient httpClient = CreateHttpClient(ConfigData.ServerAddress, TimeSpan.FromSeconds(10));
             HttpResponseMessage result = null;
             try
             {
                 result = await httpClient.GetAsync($"Account/apiVersion").ConfigureAwait(false);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 httpClient.Dispose();
                 httpClient = CreateHttpClient(ConfigData.LanServerAddress, TimeSpan.FromSeconds(10));
